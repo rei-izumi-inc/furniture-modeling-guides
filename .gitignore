@@ -1,0 +1,50 @@
+# Blender関連
+*.blend1
+*.blend2
+*.blend~
+
+# Maya関連
+*.ma~
+*.mb~
+incremental_saves/
+
+# 3ds Max関連
+*.max.bak
+*.old
+
+# テクスチャ・アセット関連
+*.bak
+*.tmp
+*.temp
+
+# OS関連
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 一時ファイル
+temp/
+tmp/
+*.log
+
+# レンダリング出力
+renders/
+output/
+*.exr
+*.hdr
+
+# プレビュー画像（大容量）
+previews/*.png
+previews/*.jpg
+!previews/thumbnail_*.png
+
+# プロジェクト固有
+config/local.json
+secrets/
+private/
