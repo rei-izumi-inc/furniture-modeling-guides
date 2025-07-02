@@ -7,16 +7,19 @@ furniture-image-style-transformerからfurniture-modeling-guidesへの段階的�
 ## 移行対象の分析
 
 ### ✅ 移行すべき成果物
+
 - **モデリングガイド** (20件) - `output/markdown-reports/`
 - **変換済み画像** - `output/roblox-transformed/`
 - **配布システム** - `delivery-system/`
 - **分析ドキュメント** - `docs/delivery-solution-analysis.md`
 
 ### ⚠️ 移行を検討すべき要素
+
 - **画像変換ツール** - 一部のスクリプト
 - **メタデータ** - JSON形式の構造化データ
 
 ### ❌ 移行しない要素
+
 - **データ処理システム** - BigQuery連携など
 - **開発用依存関係** - node_modules, TypeScript設定
 - **認証情報** - credentials/
@@ -24,6 +27,7 @@ furniture-image-style-transformerからfurniture-modeling-guidesへの段階的�
 ## Phase 1: 成果物移行 🎯
 
 ### ステップ1: ガイド移行
+
 ```bash
 # モデリングガイドをguides/ディレクトリに移行
 mkdir -p guides/
@@ -31,6 +35,7 @@ cp output/markdown-reports/*.md guides/
 ```
 
 ### ステップ2: 画像アセット移行
+
 ```bash
 # 画像をassets/images/に移行
 mkdir -p assets/images/
@@ -38,6 +43,7 @@ cp -r output/roblox-transformed/* assets/images/
 ```
 
 ### ステップ3: ディレクトリ構造整理
+
 ```
 furniture-modeling-guides/
 ├── guides/              # モデリングガイド（20件）

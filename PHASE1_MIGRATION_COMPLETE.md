@@ -7,12 +7,14 @@
 ## ✅ 移行完了項目
 
 ### 📚 モデリングガイド
+
 - **件数**: 20件
 - **ファイル形式**: Markdown
 - **移行先**: `guides/`ディレクトリ
 - **内容**: Roblox向け家具制作の詳細ガイド（寸法、素材、制作手順）
 
 ### 🖼️ 画像アセット
+
 - **件数**: 60枚（3スタイル × 20件）
 - **ファイル形式**: PNG
 - **移行先**: `assets/images/`ディレクトリ
@@ -20,6 +22,7 @@
 - **合計サイズ**: 約70MB
 
 ### 🛠️ 配布システム
+
 - **セットアップスクリプト**: setup-main.sh + 8つの機能別スクリプト
 - **運用ドキュメント**: OPERATIONS.md、QUICKSTART.md等
 - **GitHub連携**: Labels、Templates、Workflows設定済み
@@ -50,12 +53,14 @@ furniture-modeling-guides/
 ## 🔧 技術的な成果
 
 ### GitHub連携
+
 - ✅ リポジトリ自動作成: rei-izumi-inc/furniture-modeling-guides
 - ✅ ラベル設定: priority、type、status系
 - ✅ Issueテンプレート: 機能リクエスト、バグレポート
 - ✅ GitHub Actions: 自動化ワークフロー
 
 ### ファイル管理
+
 - ✅ 適切な命名規則: UUID_家具名_roblox_modeling_guide.md
 - ✅ 画像ファイル整理: スタイル別に整理済み
 - ✅ メタデータ保持: 元の家具情報を完全保持
@@ -64,7 +69,7 @@ furniture-modeling-guides/
 
 1. **GitHub プッシュ**: 画像ファイル容量（70MB）によるタイムアウト
    - **対策**: LFSを検討、または画像圧縮
-   
+
 2. **ファイル名**: 日本語文字が含まれる長いファイル名
    - **影響**: 一部プラットフォームでの可読性
    - **対策**: Phase 2で英語名へのリネーム検討
@@ -72,12 +77,14 @@ furniture-modeling-guides/
 ## 🚀 Phase 2 への準備
 
 ### 予定項目
+
 - GitHub Pages設定
 - 画像ファイル最適化
 - ガイドの英語版作成
 - 自動レポート生成
 
 ### 運用開始
+
 - Issue管理でのガイドリクエスト受付
 - プロジェクトボードでの進捗管理
 - モデラーコミュニティへの配布開始

@@ -1,0 +1,57 @@
+{
+  "name": "furniture-modeling-guides",
+  "version": "1.0.0",
+  "description": "Roblox家具モデリングガイド配布・管理システム - BigQuery連携、OpenAI画像生成、バッチ処理対応",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "batch:data-fetch": "ts-node src/batch/data-fetch/index.ts",
+    "batch:roblox-transform": "ts-node roblox-transform.ts",
+    "batch:markdown-generation": "ts-node src/batch/markdown-generation/index.ts",
+    "batch:pdf-converter": "ts-node src/batch/pdf-converter/index.ts",
+    "batch:all": "npm run batch:data-fetch && npm run batch:roblox-transform && npm run batch:markdown-generation && npm run batch:pdf-converter",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "keywords": [
+    "roblox",
+    "furniture",
+    "3d-assets",
+    "batch-processing",
+    "bigquery",
+    "image-transformation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/bigquery": "^7.3.0",
+    "@types/handlebars": "^4.1.0",
+    "axios": "^1.6.7",
+    "date-fns": "^3.3.1",
+    "dotenv": "^16.4.1",
+    "fs-extra": "^11.2.0",
+    "handlebars": "^4.7.8",
+    "markdown-it": "^14.0.0",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.104.0",
+    "sharp": "^0.33.2",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.12",
+    "@types/markdown-it": "^13.0.7",
+    "@types/node": "^20.11.16",
+    "@types/node-fetch": "^2.6.12",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

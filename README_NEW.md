@@ -47,14 +47,6 @@ furniture-modeling-guides/
 
 ## 🔧 技術仕様
 
-### システム機能
-
-- **BigQuery連携**: 家具データの自動取得・分析
-- **OpenAI画像生成**: 3つのRobloxスタイル画像を自動生成
-- **マークダウン生成**: ガイドの自動生成
-- **PDF変換**: オフライン配布用PDF作成
-- **バッチ処理**: 大量データの効率的処理
-
 ### ガイド内容
 
 - **詳細な制作手順** - ステップバイステップの説明
@@ -67,54 +59,6 @@ furniture-modeling-guides/
 - **元画像** - 実際の家具写真
 - **変換済み画像** - Robloxスタイル別の参考画像
 - **高解像度** - モデリング作業に適した画質
-
-## 🚀 セットアップ
-
-### 前提条件
-
-- Node.js 18.0+
-- TypeScript
-- Google Cloud アカウント（BigQuery用）
-- OpenAI APIキー
-
-### インストール
-
-```bash
-# 依存関係のインストール
-npm install
-
-# TypeScriptのビルド
-npm run build
-
-# 環境変数の設定
-cp .env.example .env
-# .envファイルを編集して必要な値を設定
-```
-
-### 認証設定
-
-1. Google Cloud Service Accountキーを取得
-2. `credentials/bigquery-service-account.json` として保存
-3. OpenAI APIキーを `.env` に設定
-
-### 使用方法
-
-```bash
-# データ取得
-npm run batch:data-fetch
-
-# Roblox画像変換
-npm run batch:roblox-transform
-
-# マークダウンガイド生成
-npm run batch:markdown-generation
-
-# PDF変換
-npm run batch:pdf-converter
-
-# 全バッチ実行
-npm run batch:all
-```
 
 ## 🤝 コントリビューション
 

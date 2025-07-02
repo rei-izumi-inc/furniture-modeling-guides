@@ -48,3 +48,48 @@ previews/*.jpg
 config/local.json
 secrets/
 private/
+
+# Node.js関連
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+
+# 環境変数
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# 認証・設定ファイル
+credentials/*.json
+!credentials/README.md
+
+# BigQuery・データ関連
+*.parquet
+*.csv
+data-cache/
+
+# 画像ファイル（大容量）
+assets/images/*.png
+assets/images/*.jpg
+!assets/images/README.md
+
+# 生成されたファイル
+output/data/*
+output/reports/*
+output/pdf-reports/*
+output/roblox-transformed/*
+logs/*.log
+
+# IDEファイル
+.vscode/settings.json
+.idea/

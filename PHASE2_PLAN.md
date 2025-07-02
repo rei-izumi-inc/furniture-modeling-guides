@@ -15,21 +15,25 @@
 ### Step 1: 画像ファイル管理戦略 🖼️
 
 #### Option A: Git LFS (Large File Storage)
+
 ```bash
 # LFSの設定
 git lfs track "assets/images/*.png"
 git add .gitattributes
 ```
 
-**メリット**: 
+**メリット**:
+
 - 大容量ファイルに最適
 - Git履歴を軽量化
 
-**デメリット**: 
+**デメリット**:
+
 - 複雑性の増加
 - 追加のGitHub LFS容量
 
 #### Option B: 画像圧縮 ✅ **推奨**
+
 ```bash
 # 画像サイズを75%に圧縮
 for file in assets/images/*.png; do
@@ -37,11 +41,13 @@ for file in assets/images/*.png; do
 done
 ```
 
-**メリット**: 
+**メリット**:
+
 - シンプルな管理
 - 高速なクローン・プル
 
-**デメリット**: 
+**デメリット**:
+
 - 画質の若干低下（許容範囲内）
 
 ### Step 2: GitHub Pages設定 🌐
@@ -73,6 +79,7 @@ jobs:
 ### Step 3: モデラー向けサイト構築 📱
 
 #### ホームページ構成
+
 ```
 📄 index.html (ランディングページ)
 ├── 🏠 Home - プロジェクト概要
@@ -83,6 +90,7 @@ jobs:
 ```
 
 #### 技術スタック
+
 - **フロントエンド**: HTML + CSS + JavaScript (vanilla)
 - **スタイル**: Tailwind CSS (CDN)
 - **機能**: 検索、フィルター、プレビュー
@@ -107,22 +115,26 @@ function generateReport(): GuideStats {
 ## 🎯 Phase 2 成果物
 
 ### 1. 最適化されたリポジトリ
+
 - ✅ 軽量な画像ファイル（圧縮済み）
 - ✅ 高速なクローン体験
 - ✅ 効率的なストレージ利用
 
 ### 2. 公開Webサイト
+
 - 🌐 `https://rei-izumi-inc.github.io/furniture-modeling-guides/`
 - 📱 レスポンシブデザイン
 - 🔍 検索・フィルター機能
 - 📥 一括ダウンロード機能
 
 ### 3. 自動化システム
+
 - 🔄 プッシュ時の自動サイト更新
 - 📊 統計情報の自動生成
 - 🏷️ 自動Issue/PRラベリング
 
 ### 4. 配布パッケージ
+
 - 📦 カテゴリ別ZIPファイル
 - 🗂️ 全ガイド統合パッケージ
 - 📄 PDF形式エクスポート（オプション）
@@ -140,12 +152,15 @@ function generateReport(): GuideStats {
 ## 🚨 リスク・対策
 
 ### リスク1: 画像品質低下
+
 **対策**: 段階的圧縮でベストバランスを見つける
 
 ### リスク2: サイト表示問題
+
 **対策**: ローカルテスト + 段階的デプロイ
 
 ### リスク3: 容量制限
+
 **対策**: GitHub Pagesは1GB制限 → 現在は安全圏内
 
 ## 🎯 成功基準
