@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { RobloxTransformBatch } from './src/batch/roblox-transform';
-import { RobloxStyleType } from './src/types';
+import { RobloxTransformBatch } from '../src/batch/roblox-transform';
+import { RobloxStyleType } from '../src/types';
 
 /**
  * Roblox画像変換バッチのCLIエントリポイント

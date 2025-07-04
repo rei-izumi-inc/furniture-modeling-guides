@@ -4,15 +4,16 @@ Roblox向け家具3Dモデル作成のための包括的なガイドコレクシ
 
 ## 📚 ガイド一覧
 
-現在、**20件**のRoblox向け家具モデリングガイドを提供しています：
+現在、**50件以上**のRoblox向け家具モデリングガイドを提供しています：
 
-- 🪑 **チェア・椅子類** (8件) - アビレチェア、ベルチェア、マキアスツール、スピリトオフィスチェアなど
-- 🛏️ **ベッド・寝具** (3件) - レーヌベッド（シングル・セミダブル・ダブル）
-- 🛋️ **ソファ・カウチ** (5件) - ジョルノカウチ、ラージュソファ、アームレスソファなど
-- 🍽️ **テーブル・デスク** (3件) - ベルダイニングテーブル、ラソンダイニングテーブル、モスコこたつデスクなど
-- 💡 **照明器具** (2件) - フェザーランプ（ピンク・ホワイト）
+- 🪑 **チェア・椅子類** - 各種デザインチェア、オフィスチェア、フロアチェアなど
+- 🛏️ **ベッド・寝具** - ベッド、ベッドパッド、掛け布団カバー、まくらカバーなど
+- 🛋️ **ソファ・カウチ** - ソファ、カウチ、オットマンなど
+- 🍽️ **テーブル・デスク** - ダイニングテーブル、デスク、ラグなど
+- 💡 **照明器具** - USBランプ、各種照明器具
+- 🔧 **小物・アクセサリー** - ツマミ、その他の装飾品
 
-各ガイドには3つのスタイル（Cartoony、Minimalist、Modern）の変換済み画像が含まれています。
+各ガイドには6つのスタイル（Cartoony、Realistic、Minimalist、Fantasy、Modern、Retro）の変換済み画像が含まれています。
 
 ## 🎯 対象読者
 
@@ -22,21 +23,27 @@ Roblox向け家具3Dモデル作成のための包括的なガイドコレクシ
 
 ## 🚀 はじめ方
 
-1. **[ガイド一覧](guides/)** から制作したい家具を選択
+1. **[ガイド一覧](output/markdown-reports/)** から制作したい家具を選択
 2. マークダウンファイルを開いて詳細な制作手順を確認
-3. [`assets/images/`](assets/images/) から参考画像をダウンロード
+3. [`output/original-images/`](output/original-images/) から元画像、[`output/roblox-transformed/`](output/roblox-transformed/) から参考画像をダウンロード
 4. ステップバイステップの手順に従ってモデリング
 
 ## 📁 リポジトリ構造
 
-```
+```text
 furniture-modeling-guides/
-├── guides/                 # 20件のモデリングガイド
-├── assets/
-│   └── images/            # 60枚の変換済み参考画像
-├── docs/                  # 技術ドキュメント
-├── scripts/               # 自動化スクリプト
-└── templates/             # テンプレート
+├── output/
+│   ├── markdown-reports/      # 50件以上のモデリングガイド
+│   ├── original-images/       # 元の家具画像
+│   ├── roblox-transformed/    # 6スタイル変換済み画像
+│   ├── data/                  # 処理済みデータ
+│   └── reports/               # バッチ処理レポート
+├── src/                       # ソースコード
+├── bin/                       # 実行可能スクリプト
+├── scripts/utilities/         # ユーティリティスクリプト
+├── archive/                   # アーカイブ
+├── docs/                      # 技術ドキュメント
+└── templates/                 # テンプレート（将来用）
 ```
 
 ## 📋 プロジェクト管理
@@ -50,9 +57,8 @@ furniture-modeling-guides/
 ### システム機能
 
 - **BigQuery連携**: 家具データの自動取得・分析
-- **OpenAI画像生成**: 3つのRobloxスタイル画像を自動生成
+- **OpenAI画像生成**: 6つのRobloxスタイル画像を自動生成
 - **マークダウン生成**: ガイドの自動生成
-- **PDF変換**: オフライン配布用PDF作成
 - **バッチ処理**: 大量データの効率的処理
 
 ### ガイド内容
@@ -60,12 +66,12 @@ furniture-modeling-guides/
 - **詳細な制作手順** - ステップバイステップの説明
 - **寸法・素材情報** - 元家具の仕様
 - **Roblox最適化** - プラットフォーム特有の考慮点
-- **3つのスタイル** - Cartoony、Minimalist、Modern
+- **6つのスタイル** - Cartoony、Realistic、Minimalist、Fantasy、Modern、Retro
 
 ### 画像アセット
 
-- **元画像** - 実際の家具写真
-- **変換済み画像** - Robloxスタイル別の参考画像
+- **元画像** - 実際の家具写真（`output/original-images/`）
+- **変換済み画像** - Robloxスタイル別の参考画像（`output/roblox-transformed/`）
 - **高解像度** - モデリング作業に適した画質
 
 ## 🚀 セットアップ
@@ -94,26 +100,20 @@ cp .env.example .env
 ### 認証設定
 
 1. Google Cloud Service Accountキーを取得
-2. `credentials/bigquery-service-account.json` として保存
+2. `credentials/service-account-key.json` として保存
 3. OpenAI APIキーを `.env` に設定
 
 ### 使用方法
 
 ```bash
-# データ取得
-npm run batch:data-fetch
-
-# Roblox画像変換
+# Roblox画像変換（全スタイル）
 npm run batch:roblox-transform
 
-# マークダウンガイド生成
-npm run batch:markdown-generation
+# 個別バッチの実行も可能
+npx ts-node bin/roblox-transform.ts
 
-# PDF変換
-npm run batch:pdf-converter
-
-# 全バッチ実行
-npm run batch:all
+# ユーティリティスクリプトの実行
+npx ts-node scripts/utilities/[スクリプト名].ts
 ```
 
 ## 🤝 コントリビューション
@@ -133,10 +133,11 @@ npm run batch:all
 
 ## 📊 統計
 
-- **ガイド総数**: 20件
-- **画像総数**: 60枚（3スタイル × 20件）
+- **ガイド総数**: 50件以上
+- **画像総数**: 300枚以上（6スタイル × 50件以上）
+- **対応スタイル**: 6スタイル（Cartoony、Realistic、Minimalist、Fantasy、Modern、Retro）
 - **対応ブランド**: Francfranc
-- **最終更新**: 2025年7月2日
+- **最終更新**: 2025年7月5日
 
 ---
 

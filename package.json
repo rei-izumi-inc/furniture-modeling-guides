@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "batch:data-fetch": "ts-node src/batch/data-fetch/index.ts",
-    "batch:roblox-transform": "ts-node roblox-transform.ts",
+    "batch:roblox-transform": "ts-node bin/roblox-transform.ts",
     "batch:markdown-generation": "ts-node src/batch/markdown-generation/index.ts",
     "batch:pdf-converter": "ts-node src/batch/pdf-converter/index.ts",
     "batch:all": "npm run batch:data-fetch && npm run batch:roblox-transform && npm run batch:markdown-generation && npm run batch:pdf-converter",
