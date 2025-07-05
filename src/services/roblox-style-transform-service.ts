@@ -14,6 +14,7 @@ const writeFile = promisify(fs.writeFile);
 export class RobloxStyleTransformService {
   private openai: OpenAI;
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
   
   // Robloxスタイルのプロンプトテンプレート
   private readonly stylePrompts: Record<RobloxStyleType, string> = {
@@ -81,7 +82,7 @@ export class RobloxStyleTransformService {
 
   constructor() {
     this.openai = new OpenAI({
-      apiKey: Config.OPENAI_API_KEY
+      apiKey: this.config.OPENAI_API_KEY
     });
   }
 
@@ -202,7 +203,7 @@ export class RobloxStyleTransformService {
    */
   private generateOutputPath(originalPath: string, style: RobloxStyleType): string {
     const fileName = path.basename(originalPath, path.extname(originalPath));
-    const outputDir = Config.ROBLOX_TRANSFORMED_PATH;
+    const outputDir = this.config.ROBLOX_TRANSFORMED_PATH;
     
     // ディレクトリが存在しない場合は作成
     if (!fs.existsSync(outputDir)) {

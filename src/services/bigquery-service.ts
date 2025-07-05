@@ -9,16 +9,17 @@ import { FurnitureData, FurnitureImage, QueryConfig } from '../types';
 export class BigQueryService {
   private bigquery: BigQuery;
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
   private projectId: string;
   private datasetId: string;
 
   constructor() {
-    this.projectId = Config.GOOGLE_CLOUD_PROJECT_ID;
-    this.datasetId = Config.BIGQUERY_DATASET_ID;
+    this.projectId = this.config.GOOGLE_CLOUD_PROJECT_ID;
+    this.datasetId = this.config.BIGQUERY_DATASET_ID;
     
     this.bigquery = new BigQuery({
       projectId: this.projectId,
-      keyFilename: Config.GOOGLE_APPLICATION_CREDENTIALS
+      keyFilename: this.config.GOOGLE_APPLICATION_CREDENTIALS
     });
   }
 

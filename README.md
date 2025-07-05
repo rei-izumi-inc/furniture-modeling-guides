@@ -109,11 +109,37 @@ cp .env.example .env
 # Roblox画像変換（全スタイル）
 npm run batch:roblox-transform
 
-# 個別バッチの実行も可能
+# ガイドのGitHub Issue一括作成
+npm run create:issues
+
+# dry-runモードでプレビュー
+npm run create:issues:dry-run
+
+# 作成数制限・カスタムラベル指定
+npx ts-node bin/create-issues.ts --limit 10 --labels "furniture,priority-high"
+
+# 個別バッチの実行
 npx ts-node bin/roblox-transform.ts
 
 # ユーティリティスクリプトの実行
 npx ts-node scripts/utilities/[スクリプト名].ts
+```
+
+### GitHub Issues自動作成
+
+マークダウンガイドをGitHub Issuesとして自動投稿する機能を提供：
+
+- **一括作成**: 全てのガイドを一度にIssue化
+- **プレビュー機能**: dry-runモードで事前確認
+- **カスタマイズ**: ラベル、担当者、作成数制限が可能
+- **画像パス自動修正**: GitHub raw URLに自動変換
+
+**必要な環境変数**:
+```bash
+GITHUB_TOKEN=your_github_token
+GITHUB_OWNER=rei-izumi-inc
+GITHUB_REPO=furniture-modeling-guides
+GITHUB_BRANCH=main
 ```
 
 ## 🤝 コントリビューション

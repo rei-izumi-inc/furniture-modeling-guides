@@ -6,17 +6,22 @@ import { Config } from './config';
  * ファイル・ディレクトリ操作ユーティリティ
  */
 export class FileUtils {
+  private config: Config;
+
+  constructor() {
+    this.config = Config.getInstance();
+  }
   /**
    * ディレクトリを確実に作成
    */
-  static async ensureDir(dirPath: string): Promise<void> {
+  async ensureDir(dirPath: string): Promise<void> {
     await fs.ensureDir(dirPath);
   }
 
   /**
    * ファイルの存在チェック
    */
-  static async exists(filePath: string): Promise<boolean> {
+  async exists(filePath: string): Promise<boolean> {
     try {
       await fs.access(filePath);
       return true;
@@ -28,7 +33,7 @@ export class FileUtils {
   /**
    * ファイルサイズを取得
    */
-  static async getFileSize(filePath: string): Promise<number> {
+  async getFileSize(filePath: string): Promise<number> {
     const stats = await fs.stat(filePath);
     return stats.size;
   }
@@ -36,25 +41,25 @@ export class FileUtils {
   /**
    * 出力ディレクトリを初期化
    */
-  static async initializeOutputDirs(): Promise<void> {
+  async initializeOutputDirs(): Promise<void> {
     const dirs = [
-      Config.STORAGE_PATH,
-      Config.ORIGINAL_IMAGES_PATH,
-      Config.ROBLOX_TRANSFORMED_PATH,
-      Config.MARKDOWN_OUTPUT_PATH,
-      Config.PDF_OUTPUT_PATH,
-      Config.LOG_PATH
+      this.config.STORAGE_PATH,
+      this.config.ORIGINAL_IMAGES_PATH,
+      this.config.ROBLOX_TRANSFORMED_PATH,
+      this.config.MARKDOWN_OUTPUT_PATH,
+      this.config.PDF_OUTPUT_PATH,
+      this.config.LOG_PATH
     ];
 
     for (const dir of dirs) {
-      await this.ensureDir(Config.getAbsolutePath(dir));
+      await this.ensureDir(this.config.getAbsolutePath(dir));
     }
   }
 
   /**
    * 安全なファイル名を生成
    */
-  static sanitizeFileName(fileName: string): string {
+  sanitizeFileName(fileName: string): string {
     return fileName
       .replace(/[<>:"/\\|?*]/g, '_')
       .replace(/\s+/g, '_')
@@ -64,14 +69,14 @@ export class FileUtils {
   /**
    * 拡張子を取得
    */
-  static getExtension(filePath: string): string {
+  getExtension(filePath: string): string {
     return path.extname(filePath).toLowerCase();
   }
 
   /**
    * ベース名（拡張子なし）を取得
    */
-  static getBaseName(filePath: string): string {
+  getBaseName(filePath: string): string {
     return path.basename(filePath, path.extname(filePath));
   }
 }

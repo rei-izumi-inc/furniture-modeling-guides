@@ -12,6 +12,8 @@
     "batch:markdown-generation": "ts-node src/batch/markdown-generation/index.ts",
     "batch:pdf-converter": "ts-node src/batch/pdf-converter/index.ts",
     "batch:all": "npm run batch:data-fetch && npm run batch:roblox-transform && npm run batch:markdown-generation && npm run batch:pdf-converter",
+    "create:issues": "ts-node bin/create-issues.ts",
+    "create:issues:dry-run": "ts-node bin/create-issues.ts --dry-run",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix"
@@ -28,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/bigquery": "^7.3.0",
+    "@octokit/rest": "^22.0.0",
     "@types/handlebars": "^4.1.0",
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",

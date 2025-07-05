@@ -21,6 +21,7 @@ const readFile = promisify(fs.readFile);
  */
 export class MarkdownGeneratorService {
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
   private template: Handlebars.TemplateDelegate | null = null;
 
   constructor() {
@@ -315,7 +316,7 @@ export class MarkdownGeneratorService {
     const sanitizedName = furnitureData.name.replace(/[^a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g, '_');
     const fileName = `${furnitureData.id}_${sanitizedName}_roblox_modeling_guide.md`;
     
-    const outputDir = Config.MARKDOWN_OUTPUT_PATH || './output/markdown-reports';
+    const outputDir = this.config.MARKDOWN_OUTPUT_PATH || './output/markdown-reports';
     return path.join(outputDir, fileName);
   }
 

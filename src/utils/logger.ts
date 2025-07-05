@@ -8,6 +8,7 @@ import fs from 'fs-extra';
  */
 export class Logger {
   private static instance: winston.Logger;
+  private static config = Config.getInstance();
 
   /**
    * ログインスタンスを取得
@@ -24,7 +25,7 @@ export class Logger {
    */
   private static createLogger(): winston.Logger {
     // ログディレクトリを作成
-    const logDir = Config.getAbsolutePath(Config.LOG_PATH);
+    const logDir = this.config.getAbsolutePath(this.config.LOG_PATH);
     fs.ensureDirSync(logDir);
 
     // ログフォーマット設定
@@ -45,7 +46,7 @@ export class Logger {
     );
 
     return winston.createLogger({
-      level: Config.LOG_LEVEL,
+      level: this.config.LOG_LEVEL,
       format: logFormat,
       transports: [
         // コンソール出力

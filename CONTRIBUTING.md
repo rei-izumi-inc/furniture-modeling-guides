@@ -59,6 +59,22 @@
 # リポジトリのクローン
 git clone https://github.com/rei-izumi-inc/furniture-modeling-guides.git
 
+# 依存関係のインストール
+npm install
+
+# TypeScriptビルド
+npm run build
+
+# 環境変数の設定
+cp .env.example .env
+# .envファイルを編集して必要な値を設定
+
+# Roblox画像変換バッチの実行
+npm run batch:roblox-transform
+
+# GitHub Issues作成（dry-runモードでテスト）
+npm run create:issues:dry-run
+
 # ブランチの作成
 git checkout -b feature/new-guide
 
@@ -68,6 +84,31 @@ git commit -m "Add new guide for [家具名]"
 
 # プッシュ
 git push origin feature/new-guide
+```
+
+### 自動化ツール
+
+プロジェクトには以下の自動化ツールが含まれています：
+
+**GitHub Issues作成ツール**:
+```bash
+# 全ガイドをIssueとして一括作成
+npm run create:issues
+
+# プレビューモード（実際の作成は行わない）
+npm run create:issues:dry-run
+
+# オプション指定での作成
+npx ts-node bin/create-issues.ts --limit 10 --labels "priority-high"
+```
+
+**Roblox画像変換バッチ**:
+```bash
+# 全スタイルでの画像変換
+npm run batch:roblox-transform
+
+# 特定オプションでの実行
+npx ts-node bin/roblox-transform.ts
 ```
 
 ## 🎨 画像ガイドライン

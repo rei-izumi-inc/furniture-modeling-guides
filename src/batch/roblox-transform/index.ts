@@ -43,6 +43,7 @@ class Semaphore {
  */
 export class RobloxTransformBatch {
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
   private transformService: RobloxStyleTransformService;
   private markdownService: MarkdownGeneratorService;
   private semaphore: Semaphore;
@@ -57,7 +58,7 @@ export class RobloxTransformBatch {
   constructor() {
     this.transformService = new RobloxStyleTransformService();
     this.markdownService = new MarkdownGeneratorService();
-    this.semaphore = new Semaphore(Config.MAX_CONCURRENT_TRANSFORMS);
+    this.semaphore = new Semaphore(this.config.MAX_CONCURRENT_TRANSFORMS);
   }
 
   /**
@@ -73,7 +74,7 @@ export class RobloxTransformBatch {
       this.logger.info('Roblox画像変換バッチ開始', { options });
 
       // 変換対象の家具データを読み込み
-      const furnitureDataPath = path.join(Config.DATA_OUTPUT_PATH, 'furniture-data.json');
+      const furnitureDataPath = path.join(this.config.DATA_OUTPUT_PATH, 'furniture-data.json');
       
       if (!fs.existsSync(furnitureDataPath)) {
         throw new Error('家具データファイルが見つかりません。先にデータ取得バッチを実行してください。');
@@ -228,7 +229,7 @@ export class RobloxTransformBatch {
    * 元画像のパスを特定
    */
   private findOriginalImagePath(furniture: FurnitureData): string | null {
-    const originalImagesDir = Config.ORIGINAL_IMAGES_PATH;
+    const originalImagesDir = this.config.ORIGINAL_IMAGES_PATH;
     
     // ファイル名パターンを生成（image-download-serviceと同じロジック）
     const sanitizedName = furniture.name
@@ -286,11 +287,11 @@ export class RobloxTransformBatch {
       };
 
       // ディレクトリが存在しない場合は作成
-      if (!fs.existsSync(Config.REPORTS_OUTPUT_PATH)) {
-        fs.mkdirSync(Config.REPORTS_OUTPUT_PATH, { recursive: true });
+      if (!fs.existsSync(this.config.REPORTS_OUTPUT_PATH)) {
+        fs.mkdirSync(this.config.REPORTS_OUTPUT_PATH, { recursive: true });
       }
 
-      const detailedPath = path.join(Config.REPORTS_OUTPUT_PATH, 'roblox-transform-detailed.json');
+      const detailedPath = path.join(this.config.REPORTS_OUTPUT_PATH, 'roblox-transform-detailed.json');
       fs.writeFileSync(detailedPath, JSON.stringify(detailedResults, null, 2));
 
       // サマリレポートの生成
@@ -310,7 +311,7 @@ export class RobloxTransformBatch {
         topPerformers: this.identifyTopPerformers(results)
       };
 
-      const summaryPath = path.join(Config.REPORTS_OUTPUT_PATH, 'roblox-transform-summary.json');
+      const summaryPath = path.join(this.config.REPORTS_OUTPUT_PATH, 'roblox-transform-summary.json');
       fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
 
       this.logger.info('変換結果保存完了', {
@@ -444,7 +445,7 @@ export class RobloxTransformBatch {
     this.logger.info('並列スタイル変換開始', {
       furnitureId: furniture.id,
       totalStyles: styles.length,
-      maxConcurrency: Config.MAX_CONCURRENT_TRANSFORMS
+      maxConcurrency: this.config.MAX_CONCURRENT_TRANSFORMS
     });
 
     const transformPromises = styles.map(async (style) => {

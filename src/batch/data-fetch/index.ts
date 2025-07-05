@@ -15,8 +15,10 @@ import path from 'path';
  */
 class DataFetchBatch {
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
   private bigQueryService = new BigQueryService();
   private imageDownloadService = new ImageDownloadService();
+  private fileUtils = new FileUtils();
 
   /**
    * バッチ処理実行
@@ -30,7 +32,7 @@ class DataFetchBatch {
       await this.validateConfiguration();
 
       // 出力ディレクトリ初期化
-      await FileUtils.initializeOutputDirs();
+      await this.fileUtils.initializeOutputDirs();
 
       // BigQuery接続テスト
       await this.testBigQueryConnection();
@@ -83,18 +85,18 @@ class DataFetchBatch {
   private async validateConfiguration(): Promise<void> {
     this.logger.info('設定検証開始');
 
-    const configErrors = Config.validate();
+    const configErrors = this.config.validate();
     if (configErrors.length > 0) {
       throw new Error(`設定エラー: ${configErrors.join(', ')}`);
     }
 
     // 認証ファイルの存在確認
-    const credentialsPath = Config.getAbsolutePath(Config.GOOGLE_APPLICATION_CREDENTIALS);
-    if (!await FileUtils.exists(credentialsPath)) {
+    const credentialsPath = this.config.getAbsolutePath(this.config.GOOGLE_APPLICATION_CREDENTIALS);
+    if (!await this.fileUtils.exists(credentialsPath)) {
       throw new Error(`認証ファイルが見つかりません: ${credentialsPath}`);
     }
 
-    this.logger.info('設定検証完了', Config.getSafeConfig());
+    this.logger.info('設定検証完了', this.config.getSafeConfig());
   }
 
   /**
@@ -146,10 +148,10 @@ class DataFetchBatch {
    */
   private async saveFurnitureData(furnitureData: any[]): Promise<void> {
     // ディレクトリが存在しない場合は作成
-    await fs.ensureDir(Config.getAbsolutePath(Config.DATA_OUTPUT_PATH));
+    await fs.ensureDir(this.config.getAbsolutePath(this.config.DATA_OUTPUT_PATH));
     
     const outputPath = path.join(
-      Config.getAbsolutePath(Config.DATA_OUTPUT_PATH),
+      this.config.getAbsolutePath(this.config.DATA_OUTPUT_PATH),
       'furniture-data.json'
     );
 
@@ -184,7 +186,7 @@ class DataFetchBatch {
     };
 
     const reportPath = path.join(
-      Config.getAbsolutePath(Config.DATA_OUTPUT_PATH),
+      this.config.getAbsolutePath(this.config.DATA_OUTPUT_PATH),
       'data-fetch-report.json'
     );
 

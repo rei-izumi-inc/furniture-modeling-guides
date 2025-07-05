@@ -12,6 +12,8 @@ import { FileUtils, AsyncUtils } from '../utils/helpers';
  */
 export class ImageDownloadService {
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
+  private fileUtils = new FileUtils();
 
   /**
    * 画像を一括ダウンロード
@@ -21,12 +23,12 @@ export class ImageDownloadService {
       totalCount: furnitureData.length 
     });
 
-    await FileUtils.ensureDir(Config.getAbsolutePath(Config.ORIGINAL_IMAGES_PATH));
+    await this.fileUtils.ensureDir(this.config.getAbsolutePath(this.config.ORIGINAL_IMAGES_PATH));
 
     const results = await AsyncUtils.processWithLimit(
       furnitureData,
       (data, index) => this.downloadSingleImage(data, index, furnitureData.length),
-      Config.MAX_CONCURRENT_DOWNLOADS
+      this.config.MAX_CONCURRENT_DOWNLOADS
     );
 
     const stats = this.calculateStats(results);
@@ -54,21 +56,21 @@ export class ImageDownloadService {
       // ファイル名を生成
       const fileName = this.generateFileName(furnitureData);
       const localPath = path.join(
-        Config.getAbsolutePath(Config.ORIGINAL_IMAGES_PATH),
+        this.config.getAbsolutePath(this.config.ORIGINAL_IMAGES_PATH),
         fileName
       );
 
       result.localPath = localPath;
 
       // すでにファイルが存在するかチェック
-      if (await FileUtils.exists(localPath)) {
+      if (await this.fileUtils.exists(localPath)) {
         this.logger.info('画像ファイル既存のためスキップ', {
           furnitureId: furnitureData.id,
           localPath
         });
         
         result.downloaded = true;
-        result.fileSize = await FileUtils.getFileSize(localPath);
+        result.fileSize = await this.fileUtils.getFileSize(localPath);
         result.dimensions = await this.getImageDimensions(localPath);
         return result;
       }
@@ -196,9 +198,9 @@ export class ImageDownloadService {
    * ファイル名を生成
    */
   private generateFileName(furnitureData: FurnitureData): string {
-    const sanitizedName = FileUtils.sanitizeFileName(furnitureData.name);
-    const sanitizedBrand = FileUtils.sanitizeFileName(furnitureData.brand);
-    const sanitizedCategory = FileUtils.sanitizeFileName(furnitureData.category);
+    const sanitizedName = this.fileUtils.sanitizeFileName(furnitureData.name);
+    const sanitizedBrand = this.fileUtils.sanitizeFileName(furnitureData.brand);
+    const sanitizedCategory = this.fileUtils.sanitizeFileName(furnitureData.category);
     
     return `${furnitureData.id}_${sanitizedBrand}_${sanitizedCategory}_${sanitizedName}.jpg`;
   }
@@ -261,15 +263,15 @@ export class ImageDownloadService {
    * ダウンロード済み画像の一覧を取得
    */
   async getDownloadedImages(): Promise<string[]> {
-    const imagesDir = Config.getAbsolutePath(Config.ORIGINAL_IMAGES_PATH);
+    const imagesDir = this.config.getAbsolutePath(this.config.ORIGINAL_IMAGES_PATH);
     
-    if (!await FileUtils.exists(imagesDir)) {
+    if (!await this.fileUtils.exists(imagesDir)) {
       return [];
     }
 
     const files = await fs.readdir(imagesDir);
     return files.filter(file => 
-      ['.jpg', '.jpeg', '.png'].includes(FileUtils.getExtension(file))
+      ['.jpg', '.jpeg', '.png'].includes(this.fileUtils.getExtension(file))
     );
   }
 
@@ -282,14 +284,14 @@ export class ImageDownloadService {
     averageSize: number;
   }> {
     const images = await this.getDownloadedImages();
-    const imagesDir = Config.getAbsolutePath(Config.ORIGINAL_IMAGES_PATH);
+    const imagesDir = this.config.getAbsolutePath(this.config.ORIGINAL_IMAGES_PATH);
     
     let totalSize = 0;
     
     for (const image of images) {
       const imagePath = path.join(imagesDir, image);
       try {
-        const size = await FileUtils.getFileSize(imagePath);
+        const size = await this.fileUtils.getFileSize(imagePath);
         totalSize += size;
       } catch (error) {
         this.logger.warn('ファイルサイズ取得エラー', {

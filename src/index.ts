@@ -6,8 +6,9 @@ import { Logger } from './utils/logger';
 /**
  * アプリケーションのメインエントリーポイント
  */
-class Application {
+export class FurnitureApp {
   private logger = Logger.getInstance();
+  private config = Config.getInstance();
 
   /**
    * アプリケーション開始
@@ -17,10 +18,10 @@ class Application {
       this.logger.info('Roblox家具画像スタイル変換バッチシステム開始');
       
       // 設定表示
-      this.logger.info('現在の設定', Config.getSafeConfig());
+      this.logger.info('現在の設定', this.config.getSafeConfig());
       
       // 環境確認
-      const configErrors = Config.validate();
+      const configErrors = this.config.validate();
       if (configErrors.length > 0) {
         throw new Error(`設定エラー: ${configErrors.join(', ')}`);
       }
@@ -49,22 +50,25 @@ class Application {
   npm run batch:markdown-generation # マークダウン資料生成
   npm run batch:pdf-converter       # PDF変換
   npm run batch:all                 # 全バッチ処理を順次実行
+  npm run create:issues             # マークダウンからGitHub issue作成
+  npm run create:issues:dry-run     # GitHub issue作成プレビュー
 
 オプション例:
   npm run batch:data-fetch -- --limit 50 --category "chair"
   npm run batch:data-fetch -- --brand "IKEA" --limit 100
+  npm run create:issues -- --limit 5 --labels "furniture,guide"
 
 環境変数設定:
   .env ファイルを編集してAPIキーや設定を更新してください
   
 ログ:
-  ログファイルは ${Config.LOG_PATH} に出力されます
+  ログファイルは ${this.config.LOG_PATH} に出力されます
   
 出力:
-  - オリジナル画像: ${Config.ORIGINAL_IMAGES_PATH}
-  - 変換画像: ${Config.ROBLOX_TRANSFORMED_PATH}
-  - マークダウン: ${Config.MARKDOWN_OUTPUT_PATH}
-  - PDF: ${Config.PDF_OUTPUT_PATH}
+  - オリジナル画像: ${this.config.ORIGINAL_IMAGES_PATH}
+  - 変換画像: ${this.config.ROBLOX_TRANSFORMED_PATH}
+  - マークダウン: ${this.config.MARKDOWN_OUTPUT_PATH}
+  - PDF: ${this.config.PDF_OUTPUT_PATH}
 `);
   }
 }
@@ -74,7 +78,7 @@ class Application {
  */
 async function main() {
   try {
-    const app = new Application();
+    const app = new FurnitureApp();
     await app.start();
   } catch (error) {
     console.error('❌ システム初期化エラー:', (error as Error).message);
@@ -91,4 +95,4 @@ if (require.main === module) {
   main();
 }
 
-export { Application };
+export { FurnitureApp as Application };
